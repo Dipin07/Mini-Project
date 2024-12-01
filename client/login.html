@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+    <div style="background-color: #ffffff; border-radius: 8px; padding: 40px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 100%; max-width: 400px;">
+        <h1 style="text-align: center; color: #333;">Login</h1>
+        
+        <form id="login-form" style="display: flex; flex-direction: column;">
+            <input type="email" id="email" placeholder="Email" required style="padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            <input type="password" id="password" placeholder="Password" required style="padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            <button type="submit" style="background-color: #4CAF50; color: white; padding: 12px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">Login</button>
+        </form>
+
+        <p id="response" style="color: #f44336; text-align: center; margin-top: 20px;"></p>
+        
+        <p style="text-align: center;">Don't have an account? <a href="register.html" style="color: #4CAF50; text-decoration: none;">Register here</a></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                window.location.href = 'index.html'; // Redirect to main content
+            } else {
+                document.getElementById('response').textContent = data.message;
+            }
+        });
+    </script>
+</body>
+</html>
